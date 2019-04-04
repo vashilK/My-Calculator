@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Simple Calculator</title>
+  <link rel="stylesheet" href="Library/js/jquery.mobile-1.4.5.css">
+  <script src="Library/js/jquery.js"></script>
+  <script src="Library/js/jquery.mobile-1.4.5.js"></script>
+  <style>
+    #answers {
+      display: none;
+    }
+
+    #notsimp {
+      display: none;
+    }
+    #ans{
+      font-style: italic;
+    }
+    #formula{
+      font-style: italic;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div data-role="page" id="pg1">
+
+    <!-- header for the page -->
+    <div data-role="header">
+      <h2 id="simp">Simple Calculator</h2>
+      <h2 id="notsimp">RESULTS</h2>
+    </div>
+    <!-- Tabs -->
+    <div data-role="tabs">
+      <!-- This is the navbar -->
+      <div data-role="navbar">
+        <ul>
+          <li><a href="#home" data-icon="home" class="ui-btn-active">Home</a></li>
+          <li><a href="#calcu" data-icon="grid">Calculation</a></li>
+          <li><a href="#info" data-icon="info">Help</a></li>
+        </ul>
+      </div>
+      <div data-role="main" class="ui-content">
+        <!-- home -->
+        <div id="home">
+          <h4>This is a jQuery mobile exercise which provides the user with a calculator for basic mathemathical operations</h2>
+        </div>
+        <!-- Claculation -->
+        <div id="calcu">
+          <form id="calculation">
+            <!-- text input -->
+            <input id="valA" type="text" value="">
+            <!-- collapsible box for computations -->
+            <fieldset data-role="collapsible" data-expanded-icon="carat-u" data-collapsed-icon="carat-d" data-iconpos="right">
+              <legend>operation</legend>
+              <div data-role="controlgroup" id="grouped">
+                <label>
+                  <input name="radio" id="plus" type="radio" value="plus"> +
+                </label>
+                <label>
+                  <input name="radio" id="minus" type="radio" value="minus"> -
+                </label>
+                <label>
+                  <input name="radio" id="multiply" type="radio" value="multi"> x
+                </label>
+                <label>
+                  <input name="radio" id="divide" type="radio" value="divide"> /
+                </label>
+              </div>
+            </fieldset>
+            <!-- text input -->
+            <input id="valB" type="text" value="" data-clear-btn="true">
+            <!-- button to calculate -->
+            <a href="#" id="comp" class="ui-btn ui-corner-all">Calculate</a>
+          </form>
+          <div id="answers">
+            <br>
+            <br>
+            <h1>Operation:</h1>
+            <h2 id="formula"></h2>
+            <br>
+            <h1>Results:</h1>
+            <h2 id="ans"></h2>
+            <a href="#" id="backto" class="ui-btn ui-icon-back ui-btn-icon-left">Back</a>
+
+          </div>
+        </div>
+        <!-- INFO -->
+        <div id="info">
+          <h4>This is the help section and provides basic information about how to use the calculator</h4>
+          <a href="#popupDialog" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-btn ui-btn-b ui-corner-all ui-shadow ui-icon-info ui-btn-icon-left ">More info</a>
+          <!-- pop up dialog what should be able to be dismissed -->
+          <div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:2000px;">
+            <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-left">close</a>
+            <div data-role="header" data-theme="a">
+              <h1>More info</h1>
+            </div>
+            <div role="main" class="ui-content">
+              <h3>You have requested more information about the application.</h3>
+              <a href="#" class="ui-btn ui-corner-all ui-icon-back ui-btn-icon-left" data-rel="back" data-transition="flow">Dismiss</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- footer -->
+    <div data-role="footer">
+      <h2>Homework coded by ©Kissoon Neeschal BCNS17AFT</h2>
+    </div>
+  </div>
+  <!-- Logic for the calculator -->
+  <script>
+    $(document).ready(function() {
+      //intializing important variables
+      var valueA;
+      var valueB;
+      var operation;
+      var ans;
+      $("#valA").change(function() {
+        valueA = $("#valA").val();
+      });
+      $("#valB").change(function() {
+        valueB = $("#valB").val();
+      });
+      $("#grouped").change(function() {
+        operation = $("input[name='radio']:checked").val();
+      });
+      $("#comp").click(function() {
+        //Hides the input page and displays results page
+        $("#calculation").hide();
+        $("#simp").hide();
+        $("#notsimp").show();
+        $("#answers").show("fast");
+        //This is the calculator
+        switch (operation) {
+          case "plus":
+            ans = parseInt(valueA) + parseInt(valueB);
+            var a = valueA + " + " + valueB;
+            $("h2#formula").text(a);
+            $("h2#ans").text(ans);
+            break;
+          case "minus":
+            ans = parseInt(valueA) - parseInt(valueB);
+            var a = valueA + " - " + valueB;
+            $("h2#formula").text(a);
+            $("h2#ans").text(ans);
+            break;
+          case "multi":
+            ans = parseInt(valueA) * parseInt(valueB);
+            var a = valueA + " x " + valueB;
+            $("h2#formula").text(a);
+            $("h2#ans").text(ans);
+            break;
+          case "divide":
+            ans = parseInt(valueA) / parseInt(valueB);
+            var a = valueA + " / " + valueB;
+            $("h2#formula").text(a);
+            $("h2#ans").text(ans);
+            break;
+          default:
+            ans = "ERROR!";
+        }
+        //to go back to the input page
+        $("#backto").click(function() {
+          $("#calculation").show();
+          $("#simp").show();
+          $("#notsimp").hide();
+          $("#answers").hide("fast");
+        });
+        //To hide the info part and show Dialog
+        $("#shu").click(function() {
+          alert("clicked");
+
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
